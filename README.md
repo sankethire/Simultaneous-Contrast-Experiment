@@ -1,1 +1,1 @@
-# Digital-Image-Processing
+# Simultaneous Contrast Experiment
