@@ -1,1 +1,0 @@
-# Simultaneous Contrast Experiment
