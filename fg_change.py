@@ -37,6 +37,7 @@ def concentric_box(small, big, small_i, big_i):
 			img[i][j] = small_i
 	return img
 
+# Overwrite pixels intensity of inner box i.e. foreground
 def fg_change(small, big, big_i, img):
 	for i in range(0, big):
 		for j in range(0, big):
@@ -47,14 +48,19 @@ if __name__ == "__main__":
 	img = cv.imread("example.png", cv.IMREAD_GRAYSCALE)
 	small, big, _, _ = size_intensity_calculator(img)
 	print("small square size: {}, big square size: {}".format(small, big))
+	# Background intensity taken from user
 	big_i = int(input("Enter background intensity: "))
+	# Same background foreground intensity
 	new_img = concentric_box(small, big, big_i, big_i)
 
 	while True:
-		bg_intensity = int(input("enter forground intensity: "))
-		print("weber ratio: {}%".format(100*abs(bg_intensity - big_i)/big_i))
+		# Foreground intensity modified gradually 
+		bg_intensity = int(input("enter foreground intensity: "))
+		weber = 100*abs(bg_intensity - big_i)/big_i
+		print("weber ratio: {}%".format(weber))
 		if bg_intensity < 0 or bg_intensity > 255:
 			break
 		fg_change(small, big, bg_intensity, new_img)
 		cv.imshow("images", new_img)
+		cv.imwrite("fg-change-bgi-{}-fgi-{}-wbr-{}.png".format(big_i, bg_intensity, weber), new_img)
 		k = cv.waitKey(1)
